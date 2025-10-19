@@ -13,6 +13,7 @@ using SPTarkov.Server.Core.Utils;
 using System.Text.Json.Serialization;
 using System.Reflection;
 using SPTarkov.Server.Core.Loaders;
+using SPTarkov.Server.Core.Models.Eft.Hideout;
 
 namespace MassivesoftCore;
 
@@ -43,18 +44,14 @@ MassivesoftCoreClass massivesoftCore) : IOnLoad
         return Task.CompletedTask;
     }
 }
-[Injectable(TypePriority = OnLoadOrder.PostDBModLoader + 4)]
-public class MassivesoftCoreClassCheck(
-    ISptLogger<MassivesoftCoreClassLoading> logger,
-    MassivesoftCoreClass massivesoftCore,
-    BundleLoader bundleLoader,
-    JsonUtil jsonUtil
-) : IOnLoad
+[Injectable(TypePriority = OnLoadOrder.PostDBModLoader + 10)]
+public class MassivesoftCoreClassAfterSubModLoaded(ISptLogger<MassivesoftCoreClassLoading> logger,
+MassivesoftCoreClass massivesoftCore) : IOnLoad
 {
     public Task OnLoad()
     {
-        logger.Info(jsonUtil.Serialize(bundleLoader.GetBundles()));
-        massivesoftCore.OnLoad();
+        logger.Info("Massivesoft Core Post Load Process");
+        massivesoftCore.PostLoad();
         return Task.CompletedTask;
     }
 }
@@ -74,8 +71,17 @@ public class MassivesoftCoreClass
     public Mastering[]? DBMastering { get; set; }
     public Dictionary<MongoId, Preset>? DBPreset { get; set; }
     public List<HandbookItem>? DBHandbook { get; set; }
+    public Dictionary<string, IEnumerable<Buff>>? DBBuff { get; set; }
+    public List<HideoutProduction>? DBCrafts { get; set; }
     public MongoId DefaultTrader { get; set; } = new MongoId("5a7c2eca46aef81a7ca2145d");
     public string pathToMod = "";
+    public List<MongoId> ListLoadedItem = new List<MongoId>();
+    public List<MongoId> ListLoadedAssort = new List<MongoId>();
+    private readonly List<PresetToTraderInfo> PresetToTraderInfos = new List<PresetToTraderInfo>();
+    private readonly Dictionary<string, Dictionary<MongoId, List<MongoId>>> InfoCompatibilityMapping = new Dictionary<string, Dictionary<MongoId, List<MongoId>>>();
+    public string strAllSlots = "AllSlots";
+    public string strConfilctingItems = "ConfilctingItems";
+    public string strAmmo = "Ammo";
     public MassivesoftCoreClass(ISptLogger<MassivesoftCoreClass> logger, DatabaseService databaseService, CustomItemService customItemService, ICloner cloner, ModHelper modHelper, JsonUtil jsonUtil, FileUtil fileUtil, HandbookHelper handbookHelper)
     {
         _logger = logger;
@@ -95,18 +101,39 @@ public class MassivesoftCoreClass
         DBPreset = _databaseService.GetGlobals().ItemPresets;
         pathToMod = _modHelper.GetAbsolutePathToModFolder(Assembly.GetExecutingAssembly());
         DBHandbook = _databaseService.GetHandbook().Items;
+        DBBuff = _databaseService.GetGlobals().Configuration.Health.Effects.Stimulator.Buffs;
+        DBCrafts = _databaseService.GetHideout().Production.Recipes;
+        InfoCompatibilityMapping.Add(strAmmo, new Dictionary<MongoId, List<MongoId>>());
+        InfoCompatibilityMapping.Add(strAllSlots, new Dictionary<MongoId, List<MongoId>>());
+        InfoCompatibilityMapping.Add(strConfilctingItems, new Dictionary<MongoId, List<MongoId>>());
+    }
+    public void PostLoad()
+    {
+        ProcessCompatibilityInfo();
+        ProcessPresetToTrader();
     }
     public void AdvancedCreateItemFromClone(AdvancedNewItemFromCloneDetails details)
     {
+        string traderId = details.TraderId ?? DefaultTrader;
+
+        if (ListLoadedItem.Contains(details.NewId))
+        {
+            _logger.Error($"AdvancedCreateItemFromClone: Id {details.NewId} duplicated!");
+            return;
+        }
         if (details.ItemTplToClone == null)
+        {
+            _logger.Error($"AdvancedCreateItemFromClone: AdvancedNewItemFromCloneDetails of id {details.NewId} has null ItemTplToClone!");
+            return;
+        }
+        if (DBItems?.ContainsKey(details.ItemTplToClone.ToString()!) != true)
         {
             _logger.Error($"AdvancedCreateItemFromClone: AdvancedNewItemFromCloneDetails of id {details.NewId} has invalid ItemTplToClone!");
             return;
         }
-        if (details.ParentId == null)
-        {
-            details.ParentId = DBItems![details.ItemTplToClone.ToString()!].Parent;
-        }
+
+        details.ParentId ??= DBItems![details.ItemTplToClone.ToString()!].Parent;
+
         if (details.HandbookParentId == null)
         {
             if (GetHandbookParent(details.ItemTplToClone.ToString()!, out MongoId parentId))
@@ -119,17 +146,29 @@ public class MassivesoftCoreClass
                 return;
             }
         }
+
         _customItemService.CreateItemFromClone(details);
+
         if (details.AddToTraders)
         {
             if (details.BarterSchemes == null)
             {
                 _logger.Error($"AdvancedCreateItemFromClone: AdvancedNewItemFromCloneDetails of id {details.NewId} has invalid BarterSchemes!");
             }
+            else if (details.AddPresetInsteadOfItem)
+            {
+                if (details.PresetIdToAdd == null)
+                {
+                    _logger.Error($"AdvancedCreateItemFromClone: AdvancedNewItemFromCloneDetails of id {details.NewId} AddPresetInsteadOfItem is set but PresetIdToAdd not provided!");
+                }
+                else
+                {
+                    PresetAddtoTraders(traderId, details.PresetIdToAdd, details.TraderLoyaltyLevel ?? 1, details.BarterSchemes, details.BuyRestrictionMax ?? 1000);
+                }
+            }
             else
             {
-                string TraderId = details.TraderId == null ? DefaultTrader : details.TraderId;
-                ItemAddtoTraders(TraderId, details.NewId, details.TraderLoyaltyLevel ?? 1, details.BarterSchemes, details.BuyRestrictionMax ?? 1000);
+                ItemAddtoTrader(traderId, details.NewId, details.TraderLoyaltyLevel ?? 1, details.BarterSchemes, details.BuyRestrictionMax ?? 1000);
             }
         }
         if (details.CopySlot)
@@ -145,17 +184,13 @@ public class MassivesoftCoreClass
         }
         if (details.AddtoModSlots)
         {
-            if (details.ModSlot == null)
-            {
-                _logger.Error($"AdvancedCreateItemFromClone: AdvancedNewItemFromCloneDetails of id {details.NewId} has invalid ModSlot!");
-            }
-            else if (details.ItemTplToClone == null)
+            if (details.ItemTplToClone == null)
             {
                 _logger.Error($"AdvancedCreateItemFromClone: AdvancedNewItemFromCloneDetails of id {details.NewId} has invalid ItemTplToClone!");
             }
             else
             {
-                ModAddtoSlotClone(details.NewId, details.ItemTplToClone.ToString()!, details.ModSlot);
+                ModAddtoSlotClone(details.NewId, details.ItemTplToClone.ToString()!, details.ModSlot, details.AddtoConflicts);
             }
         }
         if (details.AddMasteries)
@@ -213,9 +248,46 @@ public class MassivesoftCoreClass
         {
             MagCopyCartridges(details.NewId, details.ItemTplToClone.ToString()!);
         }
+        if (details.AddBuffs)
+        {
+            if (details.Buffs == null || details.Buffs.Count == 0)
+            {
+                _logger.Error($"AdvancedCreateItemFromClone: AdvancedNewItemFromCloneDetails of id {details.NewId} has invalid buffs!");
+            }
+            else
+            {
+                AddBuffs(details.Buffs);
+            }
+        }
+        if (details.AddCrafts)
+        {
+            if (details.Crafts == null || details.Crafts.Length == 0)
+            {
+                _logger.Error($"AdvancedCreateItemFromClone: AdvancedNewItemFromCloneDetails of id {details.NewId} has invalid crafts!");
+            }
+            else
+            {
+                AddCrafts(details.Crafts);
+            }
+        }
+        if (details.AdditionalAssortData != null)
+        {
+            var assort = details.AdditionalAssortData;
+            if (assort.BarterScheme == null || assort.Items == null || assort.LoyalLevelItems == null)
+            {
+                _logger.Error($"AdvancedCreateItemFromClone: AdditionalAssortData of {details.NewId} is invalid!");
+            }
+            else
+            {
+                AssortsAddtoTrader(traderId, details.AdditionalAssortData);
+            }
+        }
+
         ProcessItemCartridges(details.NewId);
         ProcessItemChambers(details.NewId);
         ProcessItemSlots(details.NewId);
+
+        ListLoadedItem.Add(details.NewId);
 
         string jsonFileName = details.NewId + ".json";
         _fileUtil.WriteFileAsync(System.IO.Path.Combine(pathToMod, jsonFileName), _jsonUtil.Serialize(DBItems![details.NewId], true)!);
@@ -304,7 +376,8 @@ public class MassivesoftCoreClass
                     Filters = filters
                 }
             };
-            DBItems![itemId].Properties!.Slots = DBItems[itemId].Properties!.Slots!.Append(newslot);
+            var slots = DBItems![itemId].Properties!.Slots!;
+            slots = slots.Append(newslot);
         }
     }
     public void WeaponAddPreset(Preset preset)
@@ -321,7 +394,16 @@ public class MassivesoftCoreClass
     public bool ItemGetSlotByName(MongoId itemId, string slotName, out Slot? slotOut)
     {
         slotOut = null;
-        TemplateItem tplItem = DBItems![itemId];
+        if (TryGetItem(itemId, out TemplateItem? tplItem) != true)
+        {
+            _logger.Error($"ItemGetSlotByName: Item of id {itemId} not found!");
+            return false;
+        }
+        if (tplItem == null)
+        {
+            _logger.Error($"ItemGetSlotByName: Item of id {itemId} is null!");
+            return false;
+        }
         if (!ItemHasValidSolts(tplItem))
         {
             return false;
@@ -372,34 +454,58 @@ public class MassivesoftCoreClass
         }
         return true;
     }
-    public void ModAddtoSlotClone(MongoId idtoAdd, MongoId idClone, string[]? modSlotName)
+    public void ModAddtoSlotClone(MongoId idtoAdd, MongoId cloneId, string[]? modSlotName, bool CloneConflicts = false)
     {
-
-        foreach (KeyValuePair<MongoId, TemplateItem> tplItemEntry in DBItems!)
+        if (CloneConflicts)
         {
-            TemplateItem tplItem = tplItemEntry.Value;
-            if (!ItemHasValidSolts(tplItem))
+            var innerDict = InfoCompatibilityMapping[strConfilctingItems];
+
+            if (!innerDict.TryGetValue(cloneId, out var idList))
             {
-                continue;
+                idList = new List<MongoId>();
+                innerDict[cloneId] = idList;
             }
-            foreach (Slot slot in tplItem.Properties!.Slots!)
+
+            idList.Add(idtoAdd);
+        }
+        if (modSlotName == null)
+        {
+            var innerDict = InfoCompatibilityMapping[strAllSlots];
+
+            if (!innerDict.TryGetValue(cloneId, out var idList))
             {
-                if (modSlotName == null || modSlotName.Contains(slot.Name))
+                idList = new List<MongoId>();
+                innerDict[cloneId] = idList;
+            }
+
+            idList.Add(idtoAdd);
+        }
+        else
+        {
+            foreach (string name in modSlotName)
+            {
+                if (!InfoCompatibilityMapping.TryGetValue(name, out var innerDict))
                 {
-                    if (slot.Properties?.Filters?.ElementAtOrDefault(0)?.Filter?.Contains(idClone) == true)
-                    {
-                        slot.Properties!.Filters!.ElementAtOrDefault(0)!.Filter!.Add(idtoAdd);
-                    }
+                    innerDict = new Dictionary<MongoId, List<MongoId>>();
+                    InfoCompatibilityMapping[name] = innerDict;
                 }
+
+                if (!innerDict.TryGetValue(cloneId, out var idList))
+                {
+                    idList = new List<MongoId>();
+                    innerDict[cloneId] = idList;
+                }
+
+                idList.Add(idtoAdd);
             }
         }
     }
-    public string ItemAddtoTraders(string traderId, MongoId itemId, int traderLoyaltyLevel, BarterScheme[] barterSchemes, int buyRestrictionMax = 1000, bool unlimitedCount = true, int stackObjectsCount = 9999999)
+    public void ItemAddtoTrader(string traderId, MongoId itemId, int traderLoyaltyLevel, BarterScheme[] barterSchemes, int buyRestrictionMax = 1000, bool unlimitedCount = true, int stackObjectsCount = 9999999)
     {
-        if (!GetTrader(traderId, out Trader? trader) || trader == null)
+        if (!TryGetTrader(traderId, out Trader? trader) || trader == null)
         {
             _logger.Error($"ItemAddtoTraders: Trader with id {traderId} not found when adding {itemId}!");
-            return "";
+            return;
         }
         MongoId assortId = new MongoId(GenerateValidAssortId(itemId));
         Item item = GenerateValidTraderSingleItem(
@@ -413,14 +519,14 @@ public class MassivesoftCoreClass
         List<BarterScheme> barterSchemesList = barterSchemes.ToList();
         trader.Assort.BarterScheme.TryAdd<MongoId, List<List<BarterScheme>>>(assortId, new List<List<BarterScheme>> { barterSchemesList });
         trader.Assort.LoyalLevelItems.TryAdd<MongoId, int>(assortId, traderLoyaltyLevel);
-        return assortId;
+        ListLoadedAssort.Add(assortId);
     }
-    public string ItemAddtoTraders(string traderId, MongoId itemId, int traderLoyaltyLevel, MongoId currency, double price, int buyRestrictionMax = 1000, bool unlimitedCount = true, int stackObjectsCount = 9999999)
+    public void ItemAddtoTrader(string traderId, MongoId itemId, int traderLoyaltyLevel, MongoId currency, double price, int buyRestrictionMax = 1000, bool unlimitedCount = true, int stackObjectsCount = 9999999)
     {
-        if (!GetTrader(traderId, out Trader? trader) || trader == null)
+        if (!TryGetTrader(traderId, out Trader? trader) || trader == null)
         {
             _logger.Error($"ItemAddtoTraders: Trader with id {traderId} not found when adding {itemId}!");
-            return "";
+            return;
         }
         MongoId assortId = new MongoId(GenerateValidAssortId(itemId));
         Item item = GenerateValidTraderSingleItem(
@@ -441,7 +547,46 @@ public class MassivesoftCoreClass
         };
         trader.Assort.BarterScheme.TryAdd<MongoId, List<List<BarterScheme>>>(assortId, new List<List<BarterScheme>> { barterSchemesList });
         trader.Assort.LoyalLevelItems.TryAdd<MongoId, int>(assortId, traderLoyaltyLevel);
-        return assortId;
+        ListLoadedAssort.Add(assortId);
+    }
+    public void AssortsAddtoTrader(string traderId, TraderAssort assort)
+    {
+        if (!TryGetTrader(traderId, out Trader? trader) || trader == null)
+        {
+            _logger.Error($"AssortsAddtoTraders: Trader with id {traderId} not found!");
+            return;
+        }
+        List<MongoId> validAssorts = new List<MongoId>();
+        foreach (KeyValuePair<MongoId, int> loyalty in assort.LoyalLevelItems)
+        {
+            if (assort.BarterScheme[loyalty.Key] == null)
+            {
+                _logger.Error($"AssortsAddtoTraders: Check assort {loyalty.Key} no respective BarterScheme!");
+                continue;
+            }
+            trader.Assort.BarterScheme.TryAdd<MongoId, List<List<BarterScheme>>>(loyalty.Key, assort.BarterScheme[loyalty.Key]);
+            trader.Assort.LoyalLevelItems.TryAdd<MongoId, int>(loyalty.Key, loyalty.Value);
+            validAssorts.Add(loyalty.Key);
+        }
+        List<MongoId> validItems = new List<MongoId>();
+        foreach (Item it in assort.Items)
+        {
+            if (ListLoadedAssort.Contains(it.Id))
+            {
+                _logger.Error($"AssortsAddtoTraders: Check assort item {it.Id} duplicated!");
+                continue;
+            }
+            trader.Assort.Items.Add(it);
+            ListLoadedAssort.Add(it.Id);
+            validItems.Add(it.Id);
+        }
+        foreach (MongoId id in validAssorts)
+        {
+            if (!validItems.Contains(id))
+            {
+                _logger.Error($"AssortsAddtoTraders: Check assort {id} no respective Item!");
+            }
+        }
     }
     private static string GenerateValidAssortId(string itemId)
     {
@@ -473,7 +618,7 @@ public class MassivesoftCoreClass
             }
         };
     }
-    private bool GetTrader(string traderId, out Trader? trader)
+    private bool TryGetTrader(string traderId, out Trader? trader)
     {
         try
         {
@@ -486,47 +631,42 @@ public class MassivesoftCoreClass
             return false;
         }
     }
-    public void TestLogging()
+    private bool TryGetItem(MongoId id, out TemplateItem? tplItem)
     {
-        _logger.Info($"MassivesoftCore logging works!{DBItems?.Count}");
+        try
+        {
+            tplItem = DBItems![id];
+            return true;
+        }
+        catch (KeyNotFoundException)
+        {
+            tplItem = null;
+            return false;
+        }
     }
     public void AmmoCloneCompitability(MongoId id, MongoId cloneId)
     {
-        foreach (KeyValuePair<MongoId, TemplateItem> tplItemEntry in DBItems!)
         {
-            TemplateItem tplItem = tplItemEntry.Value;
-            if (ItemHasValidChambers(tplItem))
-            {
-                foreach (Slot slot in tplItem.Properties!.Chambers!)
-                {
-                    if (slot.Properties?.Filters?.ElementAtOrDefault(0)?.Filter?.Contains(cloneId) == true)
-                    {
-                        slot.Properties!.Filters!.ElementAtOrDefault(0)!.Filter!.Add(id);
-                    }
-                }
-            }
-            if (ItemHasValidCartridges(tplItem))
-            {
-                foreach (Slot slot in tplItem.Properties!.Cartridges!)
-                {
-                    if (slot.Properties?.Filters?.ElementAtOrDefault(0)?.Filter?.Contains(cloneId) == true)
-                    {
-                        slot.Properties!.Filters!.ElementAtOrDefault(0)!.Filter!.Add(id);
-                    }
-                }
-                if (tplItem.Properties!.Slots == null || tplItem.Properties!.Slots.Count() == 0)
-                {
-                    continue;
-                }
-                foreach (Slot slot in tplItem.Properties!.Slots)
-                {
-                    if (slot.Properties?.Filters?.ElementAtOrDefault(0)?.Filter?.Contains(cloneId) == true)
-                    {
-                        slot.Properties!.Filters!.ElementAtOrDefault(0)!.Filter!.Add(id);
-                    }
-                }
+            var innerDict = InfoCompatibilityMapping[strAllSlots];
 
+            if (!innerDict.TryGetValue(cloneId, out var idList))
+            {
+                idList = new List<MongoId>();
+                innerDict[cloneId] = idList;
             }
+
+            idList.Add(id);
+        }
+        {
+            var innerDict = InfoCompatibilityMapping[strAmmo];
+
+            if (!innerDict.TryGetValue(cloneId, out var idList))
+            {
+                idList = new List<MongoId>();
+                innerDict[cloneId] = idList;
+            }
+
+            idList.Add(id);
         }
     }
     public void ModAddtoSlot(MongoId modId, MongoId tgtId, string slotName)
@@ -584,31 +724,219 @@ public class MassivesoftCoreClass
             s.Id = id.ToString().Substring(0, 21) + 'c' + indexNumber.ToString("X2");
         }
     }
-
-
+    public void AddBuffs(Dictionary<string, Buff[]> Buffs)
+    {
+        foreach (KeyValuePair<string, Buff[]> Buff in Buffs)
+        {
+            DBBuff!.Add(Buff.Key, Buff.Value);
+        }
+    }
+    public void AddCrafts(HideoutProduction[] Crafts)
+    {
+        DBCrafts!.AddRange(Crafts);
+    }
     public void WeaponCopyChambers(MongoId id, MongoId cloneId)
     {
-        if (!ItemHasValidChambers(DBItems![cloneId]))
+        if (TryGetItem(cloneId, out TemplateItem? cloneItemTpl) != true)
+        {
+            _logger.Error($"WeaponCopyChambers: Item of id {cloneId} not found!");
+            return;
+        }
+        if (cloneItemTpl == null)
+        {
+            _logger.Error($"WeaponCopyChambers: Item of id {cloneId} is null!");
+            return;
+        }
+        if (!ItemHasValidChambers(cloneItemTpl))
         {
             _logger.Error($"WeaponCopyChambers: Chambers of id {cloneId} not found when copying for {id}!");
             return;
         }
-        DBItems![id].Properties!.Chambers = _cloner.Clone(DBItems![cloneId].Properties!.Chambers);
+        DBItems![id].Properties!.Chambers = _cloner.Clone(cloneItemTpl.Properties!.Chambers);
     }
     public void MagCopyCartridges(MongoId id, MongoId cloneId)
     {
-        if (!ItemHasValidCartridges(DBItems![cloneId]))
+        if (TryGetItem(cloneId, out TemplateItem? cloneItemTpl) != true)
+        {
+            _logger.Error($"MagCopyCartridges: Item of id {cloneId} not found!");
+            return;
+        }
+        if (cloneItemTpl == null)
+        {
+            _logger.Error($"MagCopyCartridges: Item of id {cloneId} is null!");
+            return;
+        }
+        if (!ItemHasValidCartridges(cloneItemTpl))
         {
             _logger.Error($"MagCopyCartridges: Cartridges of id {cloneId} not found when copying for {id}!");
             return;
         }
-        DBItems![id].Properties!.Cartridges = _cloner.Clone(DBItems![cloneId]!.Properties!.Cartridges!);
+        DBItems![id].Properties!.Cartridges = _cloner.Clone(cloneItemTpl.Properties!.Cartridges!);
+    }
+    private void AddTraderAssortFromPreset(MongoId traderId, MongoId presetId, int traderLoyaltyLevel, BarterScheme[] barterSchemes, int buyRestrictionMax = 1000, bool unlimitedCount = true, int stackObjectsCount = 9999999)
+    {
+        if (!TryGetTrader(traderId, out Trader? trader) || trader == null)
+        {
+            _logger.Error($"PresetAddtoTraders: Trader with id {traderId} not found when adding {presetId}!");
+            return;
+        }
+        if (DBPreset?.TryGetValue(presetId, out Preset? preset) != true)
+        {
+            _logger.Error($"PresetAddtoTraders: Weapon Preset of id {presetId} does not exist!");
+            return;
+        }
+        if (preset == null)
+        {
+            _logger.Error($"PresetAddtoTraders: Weapon Preset of id {presetId} is invalid!");
+            return;
+        }
+        Item[] items = _cloner.Clone(preset.Items)!.ToArray();
+        string prefix = "d";
+        MongoId assortId = prefix + preset.Parent.ToString().Substring(prefix.Length);
+        foreach (var it in items!)
+        {
+            it.Id = prefix + it.Id.ToString().Substring(prefix.Length);
+            if (ListLoadedAssort.Contains(it.Id))
+            {
+                _logger.Error($"PresetAddtoTraders: Assort item id {it.Id} duplicated!");
+                return;
+            }
+            ListLoadedAssort.Add(it.Id);
+            if (it.ParentId != null)
+            {
+                it.ParentId = prefix + it.ParentId.Substring(prefix.Length);
+            }
+            if (it.Id == assortId)
+            {
+                it.ParentId = "hideout";
+                it.SlotId = "hideout";
+                it.Upd = new Upd
+                {
+                    UnlimitedCount = unlimitedCount,
+                    StackObjectsCount = stackObjectsCount,
+                    BuyRestrictionMax = buyRestrictionMax
+                };
+            }
+            trader.Assort.Items.Add(it);
+        }
+        trader.Assort.BarterScheme.TryAdd<MongoId, List<List<BarterScheme>>>(assortId, new List<List<BarterScheme>> { barterSchemes.ToList() });
+        trader.Assort.LoyalLevelItems.TryAdd<MongoId, int>(assortId, traderLoyaltyLevel);
+    }
+    public void PresetAddtoTraders(string traderId, MongoId presetId, int traderLoyaltyLevel, BarterScheme[] barterSchemes, int buyRestrictionMax = 1000, bool unlimitedCount = true, int stackObjectsCount = 9999999)
+    {
+        PresetToTraderInfos.Add(new PresetToTraderInfo(traderId, presetId, traderLoyaltyLevel, barterSchemes, buyRestrictionMax, unlimitedCount, stackObjectsCount));
+    }
+    private void ProcessCompatibilityInfo()
+    {
+        foreach (KeyValuePair<MongoId, TemplateItem> tplItemEntry in DBItems!)
+        {
+            var tplItem = tplItemEntry.Value;
+            if (tplItem.Type != "Item" || tplItem.Properties == null)
+            {
+                continue;
+            }
+            // Process ConflictingItems Info
+            if (tplItem.Properties.ConflictingItems?.Count > 0)
+            {
+                ApplyInfoCompatibility(strConfilctingItems, tplItem.Properties.ConflictingItems);
+            }
+            // Process Slots
+            if (tplItem.Properties.Slots?.Count() > 0)
+            {
+                foreach (Slot slot in tplItem.Properties.Slots)
+                {
+                    if (slot.Properties?.Filters?.ElementAt(0)?.Filter == null)
+                    {
+                        continue;
+                    }
+                    if (slot.Name != null)
+                    {
+                        ApplyInfoCompatibility(slot.Name, slot.Properties!.Filters!.ElementAt(0).Filter!);
+                    }
+                    ApplyInfoCompatibility(strAllSlots, slot.Properties!.Filters!.ElementAt(0).Filter!);
+                }
+            }
+            // Process Chambers
+            if (tplItem.Properties.Chambers?.Count() > 0)
+            {
+                foreach (Slot chamber in tplItem.Properties.Chambers)
+                {
+                    if (chamber.Properties?.Filters?.ElementAt(0)?.Filter != null)
+                    {
+                        ApplyInfoCompatibility(strAmmo, chamber.Properties.Filters.ElementAt(0).Filter!);
+                    }
+                }
+            }
+            // Process Cartridges
+            if (tplItem.Properties.Cartridges?.Count() > 0)
+            {
+                foreach (Slot cart in tplItem.Properties.Cartridges)
+                {
+                    if (cart.Properties?.Filters?.ElementAt(0)?.Filter != null)
+                    {
+                        ApplyInfoCompatibility(strAmmo, cart.Properties.Filters.ElementAt(0).Filter!);
+                    }
+                }
+            }
+        }
+    }
+
+    private void ApplyInfoCompatibility(string tableName, HashSet<MongoId> soltFilter)
+    {
+        if (InfoCompatibilityMapping.TryGetValue(tableName, out Dictionary<MongoId, List<MongoId>>? dict) != true)
+        {
+            return;
+        }
+        foreach (KeyValuePair<MongoId, List<MongoId>> addList in dict)
+        {
+            if (soltFilter.Contains(addList.Key))
+            {
+                soltFilter.UnionWith(addList.Value);
+            }
+        }
+    }
+
+    private void ProcessPresetToTrader()
+    {
+        foreach (PresetToTraderInfo info in PresetToTraderInfos)
+        {
+            AddTraderAssortFromPreset(info.TraderId, info.PresetId, info.TraderLoyaltyLevel, info.BarterSchemes, info.BuyRestrictionMax, info.UnlimitedCount, info.StackObjectsCount);
+        }
+    }
+    private record PresetToTraderInfo
+    {
+        public MongoId TraderId { get; set; }
+        public MongoId PresetId { get; set; }
+        public int TraderLoyaltyLevel { get; set; }
+        public BarterScheme[] BarterSchemes { get; set; }
+        public int BuyRestrictionMax { get; set; }
+        public bool UnlimitedCount { get; set; }
+        public int StackObjectsCount { get; set; }
+
+        public PresetToTraderInfo(string traderId, MongoId presetId, int traderLoyaltyLevel, BarterScheme[] barterSchemes, int buyRestrictionMax = 1000, bool unlimitedCount = true, int stackObjectsCount = 9999999)
+        {
+            TraderId = traderId;
+            PresetId = presetId;
+            TraderLoyaltyLevel = traderLoyaltyLevel;
+            BarterSchemes = barterSchemes;
+            BuyRestrictionMax = buyRestrictionMax;
+            UnlimitedCount = unlimitedCount;
+            StackObjectsCount = stackObjectsCount;
+        }
     }
 }
 public record AdvancedNewItemFromCloneDetails : NewItemFromCloneDetails
 {
+
+    //Trade infos
     [JsonPropertyName("addtoTraders")]
     public virtual bool AddToTraders { get; set; } = false;
+
+    [JsonPropertyName("addPresetInsteadOfItem")]
+    public virtual bool AddPresetInsteadOfItem { get; set; } = false;
+
+    [JsonPropertyName("presetIdToAdd")]
+    public virtual string? PresetIdToAdd { get; set; }
 
     [JsonPropertyName("traderId")]
     public virtual string? TraderId { get; set; }
@@ -622,32 +950,57 @@ public record AdvancedNewItemFromCloneDetails : NewItemFromCloneDetails
     [JsonPropertyName("buyRestrictionMax")]
     public virtual int? BuyRestrictionMax { get; set; }
 
+    //Weapon preset adding
     [JsonPropertyName("addweaponpreset")]
     public virtual bool AddToPreset { get; set; } = false;
 
     [JsonPropertyName("weaponpresets")]
     public virtual Preset[]? Presets { get; set; }
 
+    //Mastering adding
     [JsonPropertyName("masteries")]
     public virtual bool AddMasteries { get; set; } = false;
 
     [JsonPropertyName("masterySections")]
     public virtual MasterySection[]? MasterySections { get; set; }
 
+    //Copy slots from other items
     [JsonPropertyName("copySlot")]
     public virtual bool CopySlot { get; set; } = false;
 
     [JsonPropertyName("copySlots")]
     public virtual CopySoltInfo[]? CopySlotsInfo { get; set; }
 
+    //Add to other items' slots
     [JsonPropertyName("addtoModSlots")]
     public virtual bool AddtoModSlots { get; set; } = false;
 
     [JsonPropertyName("modSlot")]
     public virtual string[]? ModSlot { get; set; }
 
+    //Add to other items Conflicting Items
+    [JsonPropertyName("addtoConflicts")]
+    public virtual bool AddtoConflicts { get; set; } = false;
 
-    //New Keys
+    //Add stimulator buffs
+    [JsonPropertyName("addBuffs")]
+    public virtual bool AddBuffs { get; set; } = false;
+
+    [JsonPropertyName("buffs")]
+    public virtual Dictionary<string, Buff[]>? Buffs { get; set; }
+
+    //Add hideout crafting productions
+    [JsonPropertyName("addCrafts")]
+    public virtual bool AddCrafts { get; set; } = false;
+
+
+    [JsonPropertyName("crafts")]
+    public virtual HideoutProduction[]? Crafts { get; set; }
+
+    [JsonPropertyName("additionalAssortData")]
+    public virtual TraderAssort? AdditionalAssortData { get; set; }
+
+    //Solve ammo, weapon and mag compatibilities
     [JsonPropertyName("ammoCloneCompatibility")]
     public virtual bool AmmoCloneCompatibility { get; set; } = false;
 
@@ -657,6 +1010,8 @@ public record AdvancedNewItemFromCloneDetails : NewItemFromCloneDetails
     [JsonPropertyName("magCloneCartridgeCompatibility")]
     public virtual bool MagCloneCartridgeCompatibility { get; set; } = false;
 
+
+    //Aditional 
     [JsonPropertyName("newId")]
     public override required string NewId { get; set; }
 
@@ -688,3 +1043,4 @@ public record MasterySection
     [JsonPropertyName("level3")]
     public virtual int Level3 { get; set; }
 }
+
