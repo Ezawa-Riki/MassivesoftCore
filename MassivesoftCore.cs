@@ -930,8 +930,6 @@ public class MassivesoftCoreClass
         {
             AddTraderAssortFromPreset(info.TraderId, info.PresetId, info.TraderLoyaltyLevel, info.BarterSchemes, info.BuyRestrictionMax, info.UnlimitedCount, info.StackObjectsCount);
         }
-        string jsonFileName = "t.json";
-        _fileUtil.WriteFileAsync(System.IO.Path.Combine(pathToMod, jsonFileName), _jsonUtil.Serialize(DBTraders![DefaultTrader].Assort, true)!);
     }
     public void AddScriptedConflictingList(MongoId itemId, ConflictingInfos[] conflictingInfos)
     {
