@@ -25,7 +25,7 @@ public record ModMetadata : AbstractModMetadata
     public override string Name { get; init; } = "MassivesoftCore";
     public override string Author { get; init; } = "Massivesoft";
     public override List<string>? Contributors { get; init; }
-    public override SemanticVersioning.Version Version { get; init; } = new("1.0.0");
+    public override SemanticVersioning.Version Version { get; init; } = new("1.0.1");
     public override SemanticVersioning.Range SptVersion { get; init; } = new("~4.0.0");
 
 
@@ -116,9 +116,6 @@ public class MassivesoftCoreClass
     {
         ProcessCompatibilityInfo();
         ProcessPresetToTrader();
-        // Save it for debug, can be removed later
-        string jsonFileName = "m.json";
-        _fileUtil.WriteFileAsync(System.IO.Path.Combine(pathToMod, jsonFileName), _jsonUtil.Serialize(DBGlobals!.Configuration.Mastering, true)!);
     }
     public void AdvancedCreateItemFromClone(AdvancedNewItemFromCloneDetails details)
     {
@@ -345,10 +342,6 @@ public class MassivesoftCoreClass
         ProcessItemSlots(details.NewId);
 
         ListLoadedItem.Add(details.NewId);
-
-        string jsonFileName = details.NewId + ".json";
-        // Save it for debug, can be removed later
-        _fileUtil.WriteFileAsync(System.IO.Path.Combine(pathToMod, jsonFileName), _jsonUtil.Serialize(DBItems![details.NewId], true)!);
     }
     public bool GetHandbookParent(MongoId id, out MongoId parentId)
     {
