@@ -25,7 +25,7 @@ public record ModMetadata : AbstractModMetadata
     public override string Name { get; init; } = "MassivesoftCore";
     public override string Author { get; init; } = "Massivesoft";
     public override List<string>? Contributors { get; init; }
-    public override SemanticVersioning.Version Version { get; init; } = new("1.0.1");
+    public override SemanticVersioning.Version Version { get; init; } = new("1.0.2");
     public override SemanticVersioning.Range SptVersion { get; init; } = new("~4.0.0");
 
 
@@ -121,6 +121,9 @@ public class MassivesoftCoreClass
     {
         string traderId = details.TraderId ?? DefaultTrader;
 
+        details.AddToPreset = details.AddToPresetLowerCase ?? details.AddToPreset;
+        details.Presets = details.PresetsLowerCase ?? details.Presets;
+
         if (ListLoadedItem.Contains(details.NewId))
         {
             _logger.Error($"AdvancedCreateItemFromClone: Id {details.NewId} duplicated!");
@@ -156,11 +159,14 @@ public class MassivesoftCoreClass
 
         if (details.AddToTraders)
         {
-            if (details.BarterSchemes == null)
+            BarterScheme[] barterSchemes = details.BarterSchemes ?? [
+                new DeserializationBarterScheme
             {
-                _logger.Error($"AdvancedCreateItemFromClone: AdvancedNewItemFromCloneDetails of id {details.NewId} has invalid BarterSchemes!");
+                Template = Money.ROUBLES,
+                Count = details.FleaPriceRoubles ?? 1
             }
-            else if (details.AddPresetInsteadOfItem)
+            ];
+            if (details.AddPresetInsteadOfItem)
             {
                 if (details.PresetIdToAdd == null)
                 {
@@ -168,13 +174,13 @@ public class MassivesoftCoreClass
                 }
                 else
                 {
-                    PresetAddtoTraders(traderId, details.PresetIdToAdd, details.TraderLoyaltyLevel ?? 1, details.BarterSchemes, details.BuyRestrictionMax ?? 1000);
+                    PresetAddtoTraders(traderId, details.PresetIdToAdd, details.TraderLoyaltyLevel ?? 1, barterSchemes, details.BuyRestrictionMax ?? 1000);
                 }
             }
             else
             {
 
-                ItemAddtoTrader(traderId, details.NewId, details.TraderLoyaltyLevel ?? 1, details.BarterSchemes, details.BuyRestrictionMax ?? 1000);
+                ItemAddtoTrader(traderId, details.NewId, details.TraderLoyaltyLevel ?? 1, barterSchemes, details.BuyRestrictionMax ?? 1000);
             }
         }
         if (details.CopySlot)
@@ -995,11 +1001,11 @@ public class MassivesoftCoreClass
             itemConflictingItems.UnionWith(filters);
         }
     }
-    public void AddAdditionalLocales(Dictionary<string, Dictionary<string,string>> NewLocales)
+    public void AddAdditionalLocales(Dictionary<string, Dictionary<string, string>> NewLocales)
     {
         foreach (var lang in NewLocales)
         {
-            if(DBlocales!.Global.TryGetValue(lang.Key, out var lazyloadedValue))
+            if (DBlocales!.Global.TryGetValue(lang.Key, out var lazyloadedValue))
             {
                 lazyloadedValue.AddTransformer(lazyloadedLocaleData =>
                 {
@@ -1068,11 +1074,19 @@ public record AdvancedNewItemFromCloneDetails : NewItemFromCloneDetails
     public virtual int? BuyRestrictionMax { get; set; }
 
     //Weapon preset adding
-    [JsonPropertyName("addweaponpreset")]
+    [JsonPropertyName("addWeaponPreset")]
     public virtual bool AddToPreset { get; set; } = false;
 
-    [JsonPropertyName("weaponpresets")]
+    [JsonPropertyName("weaponPresets")]
     public virtual Preset[]? Presets { get; set; }
+
+    //For backward compatibility
+    //Weapon preset adding
+    [JsonPropertyName("addweaponpreset")]
+    public virtual bool? AddToPresetLowerCase { get; set; }
+
+    [JsonPropertyName("weaponpresets")]
+    public virtual Preset[]? PresetsLowerCase { get; set; }
 
     //Mastering adding
     [JsonPropertyName("masteries")]
@@ -1154,7 +1168,7 @@ public record AdvancedNewItemFromCloneDetails : NewItemFromCloneDetails
     public virtual ConflictingInfos[]? ScriptedConflictingInfos { get; set; }
 
     [JsonPropertyName("additionalLocales")]
-    public virtual Dictionary<string, Dictionary<string,string>>? AdditionalLocales { get; set; }
+    public virtual Dictionary<string, Dictionary<string, string>>? AdditionalLocales { get; set; }
 
     [JsonPropertyName("addToPrimaryWeaponSlot")]
     public virtual bool AddToPrimaryWeaponSlot { get; set; } = false;
