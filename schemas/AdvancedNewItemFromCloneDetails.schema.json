@@ -1,0 +1,5615 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AdvancedNewItemFromCloneDetails dictionary",
+  "type": "object",
+  "minProperties": 1,
+  "properties": {
+    "$schema": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": {
+    "$ref": "#/$defs/AdvancedNewItemFromCloneDetails"
+  },
+  "not": {
+    "required": [
+      "$schema"
+    ],
+    "maxProperties": 1
+  },
+  "$defs": {
+    "AdvancedNewItemFromCloneDetails": {
+      "type": "object",
+      "properties": {
+        "addtoTraders": {
+          "type": "boolean"
+        },
+        "addPresetInsteadOfItem": {
+          "type": "boolean"
+        },
+        "presetIdToAdd": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "traderId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "traderLoyaltyLevel": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "barterScheme": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "object",
+            "properties": {
+              "_tpl": {
+                "pattern": "^[0-9a-fA-F]{24}$",
+                "type": "string"
+              },
+              "count": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "onlyFunctional": {
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              },
+              "sptQuestLocked": {
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              },
+              "level": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "side": {
+                "enum": [
+                  "Usec",
+                  "Bear",
+                  "Any",
+                  null
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "buyRestrictionMax": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "addWeaponPreset": {
+          "type": "boolean"
+        },
+        "weaponPresets": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "pattern": "^[0-9a-fA-F]{24}$",
+                "type": "string"
+              },
+              "_type": {
+                "type": "string"
+              },
+              "_changeWeaponName": {
+                "type": "boolean"
+              },
+              "_name": {
+                "type": "string"
+              },
+              "_parent": {
+                "pattern": "^[0-9a-fA-F]{24}$",
+                "type": "string"
+              },
+              "_items": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "pattern": "^[0-9a-fA-F]{24}$",
+                      "type": "string"
+                    },
+                    "_tpl": {
+                      "pattern": "^[0-9a-fA-F]{24}$",
+                      "type": "string"
+                    },
+                    "parentId": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "slotId": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "location": true,
+                    "desc": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "upd": {
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "properties": {
+                        "Buff": {
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "properties": {
+                            "Rarity": {
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            },
+                            "BuffType": {
+                              "enum": [
+                                "WeaponSpread",
+                                "DamageReduction",
+                                "MalfunctionProtections",
+                                "WeaponDamage",
+                                "ArmorEfficiency",
+                                "DurabilityImprovement",
+                                null
+                              ]
+                            },
+                            "Value": {
+                              "type": [
+                                "number",
+                                "null"
+                              ]
+                            },
+                            "ThresholdDurability": {
+                              "type": [
+                                "number",
+                                "null"
+                              ]
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        "OriginalStackObjectsCount": {
+                          "type": [
+                            "number",
+                            "null"
+                          ]
+                        },
+                        "Togglable": {
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "properties": {
+                            "On": {
+                              "type": [
+                                "boolean",
+                                "null"
+                              ]
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        "Map": {
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "properties": {
+                            "Markers": {
+                              "type": [
+                                "array",
+                                "null"
+                              ],
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "Type": {
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ]
+                                  },
+                                  "X": {
+                                    "type": [
+                                      "number",
+                                      "null"
+                                    ]
+                                  },
+                                  "Y": {
+                                    "type": [
+                                      "number",
+                                      "null"
+                                    ]
+                                  },
+                                  "Note": {
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ]
+                                  }
+                                },
+                                "additionalProperties": false
+                              }
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        "Tag": {
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "properties": {
+                            "Color": {
+                              "type": [
+                                "integer",
+                                "null"
+                              ]
+                            },
+                            "Name": {
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        "sptPresetId": {
+                          "pattern": "^[0-9a-fA-F]{24}$",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "FaceShield": {
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "properties": {
+                            "Hits": {
+                              "type": [
+                                "integer",
+                                "null"
+                              ]
+                            },
+                            "HitSeed": {
+                              "type": [
+                                "integer",
+                                "null"
+                              ]
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        "StackObjectsCount": true,
+                        "UnlimitedCount": {
+                          "type": [
+                            "boolean",
+                            "null"
+                          ]
+                        },
+                        "Repairable": {
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "properties": {
+                            "Durability": {
+                              "type": [
+                                "number",
+                                "null"
+                              ]
+                            },
+                            "MaxDurability": {
+                              "type": [
+                                "number",
+                                "null"
+                              ]
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        "RecodableComponent": {
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "properties": {
+                            "IsEncoded": {
+                              "type": [
+                                "boolean",
+                                "null"
+                              ]
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        "FireMode": {
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "properties": {
+                            "FireMode": {
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        "SpawnedInSession": {
+                          "type": [
+                            "boolean",
+                            "null"
+                          ]
+                        },
+                        "Light": {
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "properties": {
+                            "IsActive": {
+                              "type": [
+                                "boolean",
+                                "null"
+                              ]
+                            },
+                            "SelectedMode": {
+                              "type": [
+                                "integer",
+                                "null"
+                              ]
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        "Key": {
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "properties": {
+                            "NumberOfUsages": {
+                              "type": [
+                                "integer",
+                                "null"
+                              ]
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        "Resource": {
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "properties": {
+                            "Value": {
+                              "type": [
+                                "number",
+                                "null"
+                              ]
+                            },
+                            "UnitsConsumed": {
+                              "type": [
+                                "number",
+                                "null"
+                              ]
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        "Sight": {
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "properties": {
+                            "ScopesCurrentCalibPointIndexes": {
+                              "type": [
+                                "array",
+                                "null"
+                              ],
+                              "items": {
+                                "type": "integer"
+                              }
+                            },
+                            "ScopesSelectedModes": {
+                              "type": [
+                                "array",
+                                "null"
+                              ],
+                              "items": {
+                                "type": "integer"
+                              }
+                            },
+                            "SelectedScope": {
+                              "type": [
+                                "integer",
+                                "null"
+                              ]
+                            },
+                            "ScopeZoomValue": {
+                              "type": [
+                                "number",
+                                "null"
+                              ]
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        "MedKit": {
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "properties": {
+                            "HpResource": {
+                              "type": [
+                                "number",
+                                "null"
+                              ]
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        "FoodDrink": {
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "properties": {
+                            "HpPercent": {
+                              "type": [
+                                "number",
+                                "null"
+                              ]
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        "Dogtag": {
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "properties": {
+                            "AccountId": {
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            },
+                            "ProfileId": {
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            },
+                            "Nickname": {
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            },
+                            "Side": true,
+                            "Level": {
+                              "type": [
+                                "number",
+                                "null"
+                              ]
+                            },
+                            "Time": {
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            },
+                            "Status": {
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            },
+                            "KillerAccountId": {
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            },
+                            "KillerProfileId": {
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            },
+                            "KillerName": {
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            },
+                            "WeaponName": {
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            },
+                            "CarriedByGroupMember": {
+                              "type": [
+                                "boolean",
+                                "null"
+                              ]
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        "BuyRestrictionMax": {
+                          "type": [
+                            "integer",
+                            "null"
+                          ]
+                        },
+                        "BuyRestrictionCurrent": {
+                          "type": [
+                            "integer",
+                            "null"
+                          ]
+                        },
+                        "Foldable": {
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "properties": {
+                            "Folded": {
+                              "type": [
+                                "boolean",
+                                "null"
+                              ]
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        "SideEffect": {
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "properties": {
+                            "Value": {
+                              "type": [
+                                "number",
+                                "null"
+                              ]
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        "RepairKit": {
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "properties": {
+                            "Resource": {
+                              "type": [
+                                "number",
+                                "null"
+                              ]
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        "CultistAmulet": {
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "properties": {
+                            "NumberOfUsages": {
+                              "type": [
+                                "number",
+                                "null"
+                              ]
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        "PinLockState": {
+                          "type": [
+                            "integer",
+                            "null"
+                          ]
+                        },
+                        "Lockable": {
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "properties": {
+                            "KeyIds": {
+                              "type": [
+                                "array",
+                                "null"
+                              ],
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "Locked": {
+                              "type": [
+                                "boolean",
+                                "null"
+                              ]
+                            },
+                            "KeyComponent": {
+                              "type": [
+                                "object",
+                                "null"
+                              ],
+                              "properties": {
+                                "RelativeValue": {
+                                  "type": [
+                                    "number",
+                                    "null"
+                                  ]
+                                },
+                                "NumberOfUsages": {
+                                  "type": [
+                                    "integer",
+                                    "null"
+                                  ]
+                                }
+                              },
+                              "additionalProperties": false
+                            }
+                          },
+                          "additionalProperties": false
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "_id"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "_encyclopedia": {
+                "pattern": "^[0-9a-fA-F]{24}$",
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "addweaponpreset": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "weaponpresets": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/$defs/AdvancedNewItemFromCloneDetails/properties/weaponPresets/items"
+          }
+        },
+        "masteries": {
+          "type": "boolean"
+        },
+        "masterySections": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "object",
+            "properties": {
+              "Name": {
+                "type": "string"
+              },
+              "Templates": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "Level2": {
+                "type": "integer"
+              },
+              "Level3": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "Name"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "cloneMasteries": {
+          "type": "boolean"
+        },
+        "weaponCloneMasteriesID": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "copySlot": {
+          "type": "boolean"
+        },
+        "copySlots": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "pattern": "^[0-9a-fA-F]{24}$",
+                "type": "string"
+              },
+              "newSlotName": {
+                "type": "string"
+              },
+              "tgtSlotName": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "itemsAddtoSlot": {
+                "type": [
+                  "array",
+                  "null"
+                ],
+                "items": {
+                  "type": "string"
+                }
+              },
+              "required": {
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "newSlotName"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "addSlot": {
+          "type": "boolean"
+        },
+        "addSlots": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "object",
+            "properties": {
+              "_name": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "_id": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "_parent": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "_props": {
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "properties": {
+                  "filters": {
+                    "type": [
+                      "array",
+                      "null"
+                    ],
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "Shift": {
+                          "type": [
+                            "number",
+                            "null"
+                          ]
+                        },
+                        "locked": {
+                          "type": [
+                            "boolean",
+                            "null"
+                          ]
+                        },
+                        "Plate": {
+                          "pattern": "^[0-9a-fA-F]{24}$",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "armorColliders": {
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "armorPlateColliders": {
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "Filter": {
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
+                            "pattern": "^[0-9a-fA-F]{24}$",
+                            "type": "string"
+                          }
+                        },
+                        "AnimationIndex": {
+                          "type": [
+                            "number",
+                            "null"
+                          ]
+                        },
+                        "MaxStackCount": {
+                          "type": [
+                            "number",
+                            "null"
+                          ]
+                        },
+                        "bluntDamageReduceFromSoftArmor": {
+                          "type": [
+                            "boolean",
+                            "null"
+                          ]
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "MaxStackCount": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              },
+              "_max_count": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "_required": {
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              },
+              "_mergeSlotWithChildren": {
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              },
+              "_proto": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "addtoModSlots": {
+          "type": "boolean"
+        },
+        "addtoModSlotsCloneID": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "modSlot": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "addtoConflicts": {
+          "type": "boolean"
+        },
+        "addBuffs": {
+          "type": "boolean"
+        },
+        "buffs": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "BuffType": {
+                  "type": "string"
+                },
+                "Chance": {
+                  "type": "number"
+                },
+                "Delay": {
+                  "type": "number"
+                },
+                "Duration": {
+                  "type": "number"
+                },
+                "Value": {
+                  "type": "number"
+                },
+                "AbsoluteValue": {
+                  "type": "boolean"
+                },
+                "SkillName": {
+                  "type": "string"
+                },
+                "AppliesTo": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "addCrafts": {
+          "type": "boolean"
+        },
+        "crafts": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "pattern": "^[0-9a-fA-F]{24}$",
+                "type": "string"
+              },
+              "areaType": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "requirements": {
+                "type": [
+                  "array",
+                  "null"
+                ],
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "templateId": {
+                      "pattern": "^[0-9a-fA-F]{24}$",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "count": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "isEncoded": {
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    },
+                    "isFunctional": {
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    },
+                    "areaType": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "requiredLevel": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "resource": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "questId": {
+                      "pattern": "^[0-9a-fA-F]{24}$",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "isSpawnedInSession": {
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    },
+                    "gameVersions": {
+                      "type": [
+                        "array",
+                        "null"
+                      ],
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "type": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "productionTime": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "endProduct": {
+                "pattern": "^[0-9a-fA-F]{24}$",
+                "type": "string"
+              },
+              "isEncoded": {
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              },
+              "locked": {
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              },
+              "needFuelForAllProductionTime": {
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              },
+              "continuous": {
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              },
+              "count": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "productionLimitCount": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "isCodeProduction": {
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalAssortData": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "nextResupply": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/AdvancedNewItemFromCloneDetails/properties/weaponPresets/items/properties/_items/items"
+              }
+            },
+            "barter_scheme": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "array",
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "count": {
+                        "type": [
+                          "number",
+                          "null"
+                        ]
+                      },
+                      "_tpl": {
+                        "pattern": "^[0-9a-fA-F]{24}$",
+                        "type": "string"
+                      },
+                      "onlyFunctional": {
+                        "type": [
+                          "boolean",
+                          "null"
+                        ]
+                      },
+                      "sptQuestLocked": {
+                        "type": [
+                          "boolean",
+                          "null"
+                        ]
+                      },
+                      "level": {
+                        "type": [
+                          "integer",
+                          "null"
+                        ]
+                      },
+                      "side": {
+                        "enum": [
+                          "Usec",
+                          "Bear",
+                          "Any",
+                          null
+                        ]
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                }
+              }
+            },
+            "loyal_level_items": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "integer"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "ammoCloneCompatibility": {
+          "type": "boolean"
+        },
+        "weaponCloneChamberCompatibility": {
+          "type": "boolean"
+        },
+        "weaponCloneChamberID": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "magCloneCartridgeCompatibility": {
+          "type": "boolean"
+        },
+        "magCloneCartridgeID": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "scriptedConflictingInfos": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "pattern": "^[0-9a-fA-F]{24}$",
+                "type": "string"
+              },
+              "tgtSlotName": {
+                "type": "string"
+              },
+              "itemsAddtoSlot": {
+                "type": [
+                  "array",
+                  "null"
+                ],
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "tgtSlotName"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "additionalLocales": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        },
+        "addToPrimaryWeaponSlot": {
+          "type": "boolean"
+        },
+        "addToHolsterWeaponSlot": {
+          "type": "boolean"
+        },
+        "newId": {
+          "type": "string"
+        },
+        "itemTplToClone": {
+          "pattern": "^[0-9a-fA-F]{24}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "overrideProperties": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "AllowSpawnOnLocations": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": "string"
+              }
+            },
+            "BeltMagazineRefreshCount": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "ChangePriceCoef": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "FixedPrice": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "SendToClient": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "Name": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "ShortName": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "Description": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "Weight": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "DialogId": {
+              "pattern": "^[0-9a-fA-F]{24}$",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "WeightMultipliers": true,
+            "BackgroundColor": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "Width": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "Height": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "StackMaxSize": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "Rarity": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "SpawnChance": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "CreditsPrice": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "ItemSound": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "LeftHandItem": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "Prefab": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "path": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "rcid": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "UsePrefab": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "path": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "rcid": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "airDropTemplateId": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "StackObjectsCount": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "NotShownInSlot": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "ParticleCapacity": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "ParticleDuration": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "ParticleSize": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "ExaminedByDefault": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "ExplosionRadius": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "ExplosionStrength": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "ExamineTime": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "IsUndiscardable": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "IsUnsaleable": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "IsUnbuyable": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "IsUngivable": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "IsUnremovable": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "IsLockedafterEquip": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "IsSecretExitRequirement": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "IsRagfairCurrency": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "IsSpecialSlotOnly": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "IsStationaryWeapon": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "QuestItem": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "QuestStashMaxCount": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "LootExperience": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "ExamineExperience": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "HideEntrails": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "InsuranceDisabled": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "RepairCost": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "RepairSpeed": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "ExtraSizeLeft": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "ExtraSizeRight": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "ExtraSizeUp": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "FlareTypes": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": "string"
+              }
+            },
+            "ExtraSizeDown": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "ExtraSizeForceAdd": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "MergesWithChildren": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "MetascoreGroup": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "NpcCompressorSendLevel": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "ObservedPlayerCompressorSendLevel": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "CanSellOnRagfair": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "ComputableUnitDamage": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "x": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "y": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "ComputableUnitSize": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "ComputableUnitType": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "CanUnloadAmmoByPlayer": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "CanRequireOnRagfair": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "ConflictingItems": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "pattern": "^[0-9a-fA-F]{24}$",
+                "type": "string"
+              }
+            },
+            "Unlootable": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "UnlootableFromSlot": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "UnlootableFromSide": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": "integer"
+              }
+            },
+            "AnimationVariantsNumber": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "DiscardingBlock": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "DropSoundType": {
+              "enum": [
+                "None",
+                "Pistol",
+                "SubMachineGun",
+                "Rifle",
+                null
+              ]
+            },
+            "RagFairCommissionModifier": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "RarityPvE": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "IsAlwaysAvailableForInsurance": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "DiscardLimit": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "MaxResource": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "Resource": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "DogTagQualities": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "Grids": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": "object",
+                "properties": {
+                  "_name": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "_id": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "_parent": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "_props": {
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "properties": {
+                      "filters": {
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "Filter": {
+                              "type": [
+                                "array",
+                                "null"
+                              ],
+                              "items": {
+                                "pattern": "^[0-9a-fA-F]{24}$",
+                                "type": "string"
+                              }
+                            },
+                            "ExcludedFilter": {
+                              "type": [
+                                "array",
+                                "null"
+                              ],
+                              "items": {
+                                "pattern": "^[0-9a-fA-F]{24}$",
+                                "type": "string"
+                              }
+                            },
+                            "locked": {
+                              "type": [
+                                "boolean",
+                                "null"
+                              ]
+                            }
+                          },
+                          "additionalProperties": false
+                        }
+                      },
+                      "cellsH": {
+                        "type": [
+                          "integer",
+                          "null"
+                        ]
+                      },
+                      "cellsV": {
+                        "type": [
+                          "integer",
+                          "null"
+                        ]
+                      },
+                      "minCount": {
+                        "type": [
+                          "number",
+                          "null"
+                        ]
+                      },
+                      "maxCount": {
+                        "type": [
+                          "number",
+                          "null"
+                        ]
+                      },
+                      "maxWeight": {
+                        "type": [
+                          "number",
+                          "null"
+                        ]
+                      },
+                      "isSortingTable": {
+                        "type": [
+                          "boolean",
+                          "null"
+                        ]
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "_proto": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "Slots": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "$ref": "#/$defs/AdvancedNewItemFromCloneDetails/properties/addSlots/items"
+              }
+            },
+            "CanPutIntoDuringTheRaid": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "CantRemoveFromSlotsDuringRaid": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": "integer"
+              }
+            },
+            "KeyIds": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": "string"
+              }
+            },
+            "TagColor": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "TagName": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "Durability": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "Accuracy": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "Recoil": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "Loudness": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "EffectiveDistance": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "Ergonomics": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "UseAltMountBone": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "Velocity": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "WeaponRecoilSettings": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "Enable": {
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "Values": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "Enable": {
+                        "type": [
+                          "boolean",
+                          "null"
+                        ]
+                      },
+                      "Process": {
+                        "type": [
+                          "object",
+                          "null"
+                        ],
+                        "properties": {
+                          "ComponentType": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "CurveAimingValueMultiply": {
+                            "type": [
+                              "number",
+                              "null"
+                            ]
+                          },
+                          "CurveTimeMultiply": {
+                            "type": [
+                              "number",
+                              "null"
+                            ]
+                          },
+                          "CurveValueMultiply": {
+                            "type": [
+                              "number",
+                              "null"
+                            ]
+                          },
+                          "TransformationCurve": {
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "properties": {
+                              "Keys": {
+                                "type": [
+                                  "array",
+                                  "null"
+                                ],
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "inTangent": {
+                                      "type": [
+                                        "number",
+                                        "null"
+                                      ]
+                                    },
+                                    "outTangent": {
+                                      "type": [
+                                        "number",
+                                        "null"
+                                      ]
+                                    },
+                                    "time": {
+                                      "type": [
+                                        "number",
+                                        "null"
+                                      ]
+                                    },
+                                    "value": {
+                                      "type": [
+                                        "number",
+                                        "null"
+                                      ]
+                                    }
+                                  },
+                                  "additionalProperties": false
+                                }
+                              }
+                            },
+                            "additionalProperties": false
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "Target": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            "WithAnimatorAiming": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "RaidModdable": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "ToolModdable": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "UniqueAnimationModID": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "BlocksFolding": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "BlocksCollapsible": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "IsAnimated": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "HasShoulderContact": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "SightingRange": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "ZoomSensitivity": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "DoubleActionAccuracyPenaltyMult": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "ModesCount": true,
+            "DurabilityBurnModificator": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "HeatFactor": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "CoolFactor": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "muzzleModType": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "CustomAimPlane": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "IsAdjustableOptic": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "MinMaxFov": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "x": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "y": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "z": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "sightModType": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "SightModesCount": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "OpticCalibrationDistances": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": "number"
+              }
+            },
+            "ScopesCount": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "AimSensitivity": true,
+            "Zooms": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                }
+              }
+            },
+            "CalibrationDistances": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "$ref": "#/$defs/AdvancedNewItemFromCloneDetails/properties/overrideProperties/properties/Zooms/items"
+              }
+            },
+            "Intensity": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "Mask": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "MaskSize": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "IsMagazineForStationaryWeapon": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "NoiseIntensity": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "NoiseScale": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "Color": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "r": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "g": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "b": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "a": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "DiffuseIntensity": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "MagazineWithBelt": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "HasHinge": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "RampPalette": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "DepthFade": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "RoughnessCoef": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "SpecularCoef": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "MainTexColorCoef": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "MinimumTemperatureValue": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "RampShift": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "HeatMin": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "ColdMax": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "IsNoisy": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "IsFpsStuck": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "IsGlitch": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "IsMotionBlurred": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "IsPixelated": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "PixelationBlockCount": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "ShiftsAimCamera": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "magAnimationIndex": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "Cartridges": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "$ref": "#/$defs/AdvancedNewItemFromCloneDetails/properties/addSlots/items"
+              }
+            },
+            "CanFast": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "CanHit": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "CanAdmin": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "LoadUnloadModifier": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "CheckTimeModifier": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "CheckOverride": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "ReloadMagType": {
+              "enum": [
+                "ExternalMagazine",
+                "InternalMagazine",
+                "OnlyBarrel",
+                "ExternalMagazineWithInternalReloadSupport",
+                null
+              ]
+            },
+            "VisibleAmmoRangesString": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "MalfunctionChance": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "IsShoulderContact": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "Foldable": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "Retractable": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "SizeReduceRight": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "CenterOfImpact": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "IsSilencer": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "DeviationCurve": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "DeviationMax": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "SearchSound": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "BlocksArmorVest": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "speedPenaltyPercent": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "GridLayoutName": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "ContainerSpawnChanceModifier": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "SpawnFilter": {
+              "type": [
+                "array",
+                "null"
+              ]
+            },
+            "containType": {
+              "type": [
+                "array",
+                "null"
+              ]
+            },
+            "sizeWidth": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "sizeHeight": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "isSecured": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "spawnTypes": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "lootFilter": {
+              "type": [
+                "array",
+                "null"
+              ]
+            },
+            "spawnRarity": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "minCountSpawn": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "maxCountSpawn": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "openedByKeyID": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": "string"
+              }
+            },
+            "RigLayoutName": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "MaxDurability": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "armorZone": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": "string"
+              }
+            },
+            "armorClass": true,
+            "armorColliders": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": "string"
+              }
+            },
+            "armorPlateColliders": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": "string"
+              }
+            },
+            "bluntDamageReduceFromSoftArmor": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "mousePenalty": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "weaponErgonomicPenalty": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "BluntThroughput": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "ArmorMaterial": {
+              "enum": [
+                "UHMWPE",
+                "Aramid",
+                "Combined",
+                "Titan",
+                "Aluminium",
+                "ArmoredSteel",
+                "Ceramic",
+                "Glass",
+                null
+              ]
+            },
+            "ArmorType": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "weapClass": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "weapUseType": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "ammoCaliber": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "OperatingResource": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "PostRecoilHorizontalRangeHandRotation": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "x": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "y": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "z": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "PostRecoilVerticalRangeHandRotation": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "x": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "y": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "z": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "ProgressRecoilAngleOnStable": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "x": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "y": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "z": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "RepairComplexity": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "ResetAfterShot": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "durabSpawnMin": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "durabSpawnMax": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "isFastReload": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "RecoilForceUp": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "RecoilForceBack": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "RecoilAngle": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "RecoilCamera": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "RecoilCategoryMultiplierHandRotation": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "weapFireType": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": "string"
+              }
+            },
+            "RecolDispersion": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "SingleFireRate": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "CanQueueSecondShot": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "bFirerate": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "bEffDist": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "bHearDist": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "blockLeftStance": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "isChamberLoad": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "chamberAmmoCount": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "isBoltCatch": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "defMagType": {
+              "pattern": "^[0-9a-fA-F]{24}$",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "defAmmo": {
+              "pattern": "^[0-9a-fA-F]{24}$",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "AdjustCollimatorsToTrajectory": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "ShotgunDispersion": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "shotgunDispersion": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "Chambers": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "$ref": "#/$defs/AdvancedNewItemFromCloneDetails/properties/addSlots/items"
+              }
+            },
+            "CameraSnap": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "CameraToWeaponAngleSpeedRange": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "x": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "y": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "z": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "CameraToWeaponAngleStep": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "ReloadMode": {
+              "enum": [
+                "ExternalMagazine",
+                "InternalMagazine",
+                "OnlyBarrel",
+                "ExternalMagazineWithInternalReloadSupport",
+                null
+              ]
+            },
+            "AimPlane": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "TacticalReloadStiffnes": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "x": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "y": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "z": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "TacticalReloadFixation": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "RecoilCenter": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "x": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "y": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "z": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "RotationCenter": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "x": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "y": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "z": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "RotationCenterNoStock": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "x": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "y": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "z": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "ShotsGroupSettings": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": "object",
+                "properties": {
+                  "EndShotIndex": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "ShotRecoilPositionStrength": {
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "properties": {
+                      "x": {
+                        "type": [
+                          "number",
+                          "null"
+                        ]
+                      },
+                      "y": {
+                        "type": [
+                          "number",
+                          "null"
+                        ]
+                      },
+                      "z": {
+                        "type": [
+                          "number",
+                          "null"
+                        ]
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "ShotRecoilRadianRange": {
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "properties": {
+                      "x": {
+                        "type": [
+                          "number",
+                          "null"
+                        ]
+                      },
+                      "y": {
+                        "type": [
+                          "number",
+                          "null"
+                        ]
+                      },
+                      "z": {
+                        "type": [
+                          "number",
+                          "null"
+                        ]
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "ShotRecoilRotationStrength": {
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "properties": {
+                      "x": {
+                        "type": [
+                          "number",
+                          "null"
+                        ]
+                      },
+                      "y": {
+                        "type": [
+                          "number",
+                          "null"
+                        ]
+                      },
+                      "z": {
+                        "type": [
+                          "number",
+                          "null"
+                        ]
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "StartShotIndex": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "FoldedSlot": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "ForbidMissingVitalParts": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "ForbidNonEmptyContainers": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "CompactHandling": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "MinRepairDegradation": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "MaxRepairDegradation": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "IronSightRange": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "IsBeltMachineGun": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "IsFlareGun": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "IsGrenadeLauncher": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "IsOneoff": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "MustBoltBeOpennedForExternalReload": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "MustBoltBeOpennedForInternalReload": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "NoFiremodeOnBoltcatch": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "BoltAction": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "HipAccuracyRestorationDelay": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "HipAccuracyRestorationSpeed": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "HipInnaccuracyGain": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "ManualBoltCatch": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "BurstShotsCount": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "BaseMalfunctionChance": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "AllowJam": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "AllowFeed": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "AllowMisfire": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "AllowSlide": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "DurabilityBurnRatio": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "HeatFactorGun": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "CoolFactorGun": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "CoolFactorGunMods": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "HeatFactorByShot": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "AllowOverheat": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "DoubleActionAccuracyPenalty": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "RecoilPosZMult": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "RecoilReturnPathDampingHandRotation": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "RecoilReturnPathOffsetHandRotation": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "RecoilReturnSpeedHandRotation": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "RecoilStableAngleIncreaseStep": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "RecoilStableIndexShot": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "MinRepairKitDegradation": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "MaxRepairKitDegradation": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "MountCameraSnapMultiplier": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "MountHorizontalRecoilMultiplier": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "MountReturnSpeedHandMultiplier": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "MountVerticalRecoilMultiplier": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "MountingHorizontalOutOfBreathMultiplier": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "MountingPosition": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "x": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "y": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "z": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "MountingVerticalOutOfBreathMultiplier": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "BlocksEarpiece": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "BlocksEyewear": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "BlocksHeadwear": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "BlocksFaceCover": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "Indestructibility": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "FaceShieldComponent": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "FaceShieldMask": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "MaterialType": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "RicochetParams": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "x": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "y": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "z": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "DeafStrength": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "BlindnessProtection": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "Distortion": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "CompressorAttack": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "CompressorRelease": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "CompressorGain": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "EQBand1Frequency": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "EQBand1Gain": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "EQBand1Q": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "EQBand2Frequency": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "EQBand2Gain": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "EQBand2Q": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "EQBand3Frequency": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "EQBand3Gain": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "EQBand3Q": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "EffectsReturnsCompressorSendLevel": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "EffectsReturnsGroupVolume": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "EnvCommonCompressorSendLevel": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "EnvNatureCompressorSendLevel": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "EnvTechnicalCompressorSendLevel": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "GunsCompressorSendLevel": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "HeadphonesMixerVolume": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "HighpassFreq": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "HighpassResonance": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "LowpassFreq": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "RolloffMultiplier": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "AmbientVolume": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "AmbientCompressorSendLevel": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "ClientPlayerCompressorSendLevel": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "CompressorThreshold": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "DryVolume": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "foodUseTime": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "foodEffectType": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "StimulatorBuffs": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "effects_health": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "additionalProperties": {
+                "type": "object",
+                "properties": {
+                  "value": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "delay": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "duration": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "effects_damage": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "additionalProperties": {
+                "type": "object",
+                "properties": {
+                  "value": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "delay": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "duration": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "fadeOut": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "cost": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "healthPenaltyMin": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "healthPenaltyMax": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "MaximumNumberOfUsage": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "knifeHitDelay": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "knifeHitSlashRate": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "knifeHitStabRate": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "knifeHitRadius": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "knifeHitSlashDam": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "knifeHitStabDam": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "knifeDurab": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "PrimaryDistance": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "SecondryDistance": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "SlashPenetration": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "StabPenetration": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "PrimaryConsumption": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "SecondryConsumption": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "DeflectionConsumption": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "AppliedTrunkRotation": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "x": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "y": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "z": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "AppliedHeadRotation": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "x": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "y": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "z": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "DisplayOnModel": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "AdditionalAnimationLayer": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "StaminaBurnRate": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "ColliderScaleMultiplier": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "x": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "y": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "z": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "ConfigPathStr": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "MaxMarkersCount": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "scaleMin": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "scaleMax": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "medUseTime": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "medEffectType": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "BodyPartPriority": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": "string"
+              }
+            },
+            "MaxHpResource": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "hpResourceRate": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "apResource": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "krResource": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "MaxOpticZoom": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "MaxRepairResource": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "TargetItemFilter": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "pattern": "^[0-9a-fA-F]{24}$",
+                "type": "string"
+              }
+            },
+            "RepairQuality": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "RepairType": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "StackMinRandom": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "StackMaxRandom": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "ammoType": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "InitialSpeed": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "BulletMassGram": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "BulletDiameterMillimeters": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "Damage": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "ammoAccr": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "ammoRec": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "ammoDist": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "buckshotBullets": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "PenetrationPower": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "PenetrationPowerDeviation": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "ammoHear": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "ammoSfx": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "MisfireChance": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "MinFragmentsCount": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "MaxFragmentsCount": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "ammoShiftChance": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "casingName": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "casingEjectPower": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "casingMass": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "casingSounds": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "ArmingTime": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "ProjectileCount": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "PropagationSpeed": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "PenetrationChanceObstacle": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "PenetrationDamageMod": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "RicochetChance": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "FragmentationChance": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "Deterioration": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "SpeedRetardation": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "Tracer": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "TracerColor": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "TracerDistance": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "ArmorDamage": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "Caliber": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "StaminaBurnPerDamage": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "HeavyBleedingDelta": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "LightBleedingDelta": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "ShowBullet": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "HasGrenaderComponent": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "FuzeArmTimeSec": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "MinExplosionDistance": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "PenetrationPowerDiviation": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "MaxExplosionDistance": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "FragmentsCount": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "FragmentType": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "ShowHitEffectOnExplode": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "ExplosionType": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "AmmoLifeTimeSec": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "AmmoTooltipClass": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "Contusion": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "x": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "y": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "z": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "ArmorDistanceDistanceDamage": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "x": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "y": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "z": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "BackBlastConeAngle": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "BackblastDamage": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "x": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "y": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "BackblastDistance": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "Blindness": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "x": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "y": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "z": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "IsLightAndSoundShot": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "IsMountable": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "LightAndSoundShotAngle": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "LightAndSoundShotSelfContusionTime": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "LightAndSoundShotSelfContusionStrength": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "MalfMisfireChance": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "MalfFeedChance": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "StackSlots": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": "object",
+                "properties": {
+                  "_name": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "_id": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "_parent": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "_max_count": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "_props": {
+                    "type": [
+                      "object",
+                      "null"
+                    ],
+                    "properties": {
+                      "filters": {
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "$ref": "#/$defs/AdvancedNewItemFromCloneDetails/properties/addSlots/items/properties/_props/properties/filters/items"
+                        }
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "_proto": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "upd": true
+                },
+                "additionalProperties": false
+              }
+            },
+            "type": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "eqMin": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "eqMax": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "rate": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "ThrowType": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "ExplDelay": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "explDelay": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "Strength": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "ContusionDistance": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "throwDamMax": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "EmitTime": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "CanBeHiddenDuringThrow": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "CanPlantOnGround": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "MinTimeToContactExplode": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "PlayFuzeSound": {
+              "type": "boolean"
+            },
+            "ExplosionEffectType": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "LinkedWeapon": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "UseAmmoWithoutShell": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "RecoilDampingHandRotation": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "LeanWeaponAgainstBody": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "RemoveShellAfterFire": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "RepairStrategyTypes": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": "integer"
+              }
+            },
+            "IsEncoded": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "LayoutName": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "Lower75Prefab": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "path": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "rcid": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "MaxUsages": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "BallisticCoeficient": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "BulletDiameterMilimeters": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "ScavKillExpPenalty": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "ScavKillExpPenaltyPVE": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "ScavKillStandingPenalty": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "ScavKillStandingPenaltyPVE": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "TradersDiscount": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "TradersDiscountPVE": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "AvailableAsDefault": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "ProfileVersions": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": "string"
+              }
+            },
+            "Side": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": {
+                "type": "string"
+              }
+            },
+            "BipodCameraSnapMultiplier": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "BipodOutOfStaminaBreathMultiplier": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "BipodRecoilMultiplier": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "BipodReturnHandSpeedMultiplier": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "PitchLimitProneBipod": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "x": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "y": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "z": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "YawLimitProneBipod": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "x": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "y": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                },
+                "z": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "AdjustableOpticSensitivity": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "AdjustableOpticSensitivityMax": {
+              "type": [
+                "number",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "parentId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "fleaPriceRoubles": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "handbookPriceRoubles": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "handbookParentId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "locales": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "shortName": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "description": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "newId",
+        "itemTplToClone"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "required": [
+              "copySlot"
+            ],
+            "properties": {
+              "copySlot": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "copySlots"
+            ],
+            "properties": {
+              "copySlots": {
+                "type": "array"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "addSlot"
+            ],
+            "properties": {
+              "addSlot": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "addSlots"
+            ],
+            "properties": {
+              "addSlots": {
+                "type": "array"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "masteries"
+            ],
+            "properties": {
+              "masteries": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "masterySections"
+            ],
+            "properties": {
+              "masterySections": {
+                "type": "array",
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "anyOf": [
+              {
+                "required": [
+                  "addweaponpreset"
+                ],
+                "properties": {
+                  "addweaponpreset": {
+                    "const": true
+                  }
+                }
+              },
+              {
+                "allOf": [
+                  {
+                    "anyOf": [
+                      {
+                        "not": {
+                          "required": [
+                            "addweaponpreset"
+                          ]
+                        }
+                      },
+                      {
+                        "required": [
+                          "addweaponpreset"
+                        ],
+                        "properties": {
+                          "addweaponpreset": {
+                            "type": "null"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "required": [
+                      "addWeaponPreset"
+                    ],
+                    "properties": {
+                      "addWeaponPreset": {
+                        "const": true
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "then": {
+            "anyOf": [
+              {
+                "required": [
+                  "weaponpresets"
+                ],
+                "properties": {
+                  "weaponpresets": {
+                    "type": "array",
+                    "minItems": 1
+                  }
+                }
+              },
+              {
+                "allOf": [
+                  {
+                    "anyOf": [
+                      {
+                        "not": {
+                          "required": [
+                            "weaponpresets"
+                          ]
+                        }
+                      },
+                      {
+                        "required": [
+                          "weaponpresets"
+                        ],
+                        "properties": {
+                          "weaponpresets": {
+                            "type": "null"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "required": [
+                      "weaponPresets"
+                    ],
+                    "properties": {
+                      "weaponPresets": {
+                        "type": "array",
+                        "minItems": 1
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "addBuffs"
+            ],
+            "properties": {
+              "addBuffs": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "buffs"
+            ],
+            "properties": {
+              "buffs": {
+                "type": "object",
+                "minProperties": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "addCrafts"
+            ],
+            "properties": {
+              "addCrafts": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "crafts"
+            ],
+            "properties": {
+              "crafts": {
+                "type": "array",
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "allOf": [
+              {
+                "required": [
+                  "addtoTraders"
+                ],
+                "properties": {
+                  "addtoTraders": {
+                    "const": true
+                  }
+                }
+              },
+              {
+                "required": [
+                  "addPresetInsteadOfItem"
+                ],
+                "properties": {
+                  "addPresetInsteadOfItem": {
+                    "const": true
+                  }
+                }
+              }
+            ]
+          },
+          "then": {
+            "required": [
+              "presetIdToAdd"
+            ],
+            "properties": {
+              "presetIdToAdd": {
+                "type": "string",
+                "pattern": "^[0-9a-fA-F]{24}$"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "additionalAssortData"
+            ],
+            "properties": {
+              "additionalAssortData": {
+                "type": "object"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "additionalAssortData": {
+                "required": [
+                  "items",
+                  "barter_scheme",
+                  "loyal_level_items"
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "$comment": "Business rules mirror AdvancedCreateItemFromClone runtime validation. Legacy weapon preset fields override their canonical counterparts when non-null.",
+      "title": "AdvancedNewItemFromCloneDetails"
+    }
+  }
+}
